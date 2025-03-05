@@ -22,4 +22,15 @@ public class MemberService {
 
         memberRepository.save(conn, member);
     }
+
+    public void changeMemberPassword(Connection conn, String email, String password, String newPassword) {
+        Member member = memberRepository.findByEmailAndPassword(conn, email, password);
+
+        if (member == null) {
+            System.out.println("해당 계정이 존재하지 않습니다.");
+            return;
+        }
+
+        memberRepository.updatePassword(conn, member.getMemberId(), newPassword);
+    }
 }
