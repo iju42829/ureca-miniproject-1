@@ -29,3 +29,4 @@ bin/
 .DS_Store
 /.idea/
 /miniProject1.iml
+/src/util/ConnectionConst.java
