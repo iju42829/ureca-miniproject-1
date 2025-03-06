@@ -13,10 +13,8 @@ public class MainService {
     private final OrderService orderService;
     private final MemberService memberService;
     private final PhoneService phoneService;
-
     private final PhoneProcess phoneProcess;
     private final MemberProcess memberProcess;
-
     private final Scanner scanner = new Scanner(System.in);
 
     public MainService(OrderService orderService, MemberService memberService, PhoneService phoneService, PhoneProcess phoneProcess, MemberProcess memberProcess) {
@@ -34,18 +32,12 @@ public class MainService {
 
             if (order.equals("exit"))
                 break;
-
-            if (order.equals("member")) {
+            if (order.equals("member"))
                 memberExecute();
-            }
-
-            if (order.equals("phone")) {
+            if (order.equals("phone"))
                 phoneExecute();
-            }
-
-            if (order.equals("order")) {
+            if (order.equals("order"))
                 orderExecute();
-            }
         }
     }
 
@@ -98,25 +90,13 @@ public class MainService {
                         PhoneCreateDto phoneCreateDto = phoneProcess.inputPhoneDetails();
                         phoneService.createPhone(conn, phoneCreateDto);
                         System.out.println("=== 휴대폰 등록에 성공했습니다. ===");
-                    } else {
+                    } else
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
-                    }
                 }
 
                 if (order.equals("show")) {
                     List<PhoneListDTO> phones = phoneService.getAllPhones(conn);
-
-                    System.out.println("=== 휴대폰 목록 ===");
-                    for (PhoneListDTO phone : phones) {
-                        System.out.println(
-                                "이름: " + phone.getName() +
-                                        ",\n브랜드: " + phone.getBrand() +
-                                        ",\n가격: " + phone.getRegularPrice() +
-                                        ",\n할인액: " + phone.getDiscountAmount() +
-                                        ",\n재고: " + phone.getStock()
-                        );
-                        System.out.println("----------------------------");
-                    }
+                    phoneProcess.printPhoneList(phones);
                 }
 
                 if (order.equals("updateStock")) {
@@ -125,17 +105,9 @@ public class MainService {
 
                     if (flag) {
                         System.out.println("=== 수량 업데이트 ===");
-                        System.out.print("기기 이름 입력: ");
-                        String name = scanner.nextLine();
-
-                        System.out.print("수량 입력 : ");
-                        int stock = Integer.parseInt(scanner.nextLine());
-
-                        phoneService.editStock(conn, name, stock);
-                    } else {
+                        phoneService.editStock(conn, phoneProcess.inputPhoneName(), phoneProcess.inputStock());
+                    } else
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
-
-                    }
                 }
 
                 if (order.equals("order")) {
@@ -143,24 +115,17 @@ public class MainService {
                     boolean flag = memberService.existsMemberByEmailAndPassword(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {
-                        System.out.println("=== 주문 ===");
-                        System.out.print("기기 이름 : ");
-                        String name = scanner.nextLine();
-
-                        System.out.print("구매 수량 : ");
-                        int quantity = Integer.parseInt(scanner.nextLine());
-
+                        String name = phoneProcess.inputPhoneName();
+                        int quantity = phoneProcess.inputQuantityForOrder();
                         PhoneDto phoneDto = phoneService.getPhoneByName(conn, name);
 
                         if (phoneDto == null) {
                             System.out.println("해당 기기가 존재하지 않습니다.");
-
                         } else {
                             if (phoneDto.getStock() < quantity) {
                                 System.out.println("수량이 부족합니다.");
                                 continue;
                             }
-
                             phoneService.editStock(conn, name, -quantity);
                             MemberDto member = memberService.getMember(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
                             OrderCreateDto orderCreateDto = new OrderCreateDto(member.getMemberId(), phoneDto.getPhoneId(), quantity, phoneDto.getRegularPrice(), phoneDto.getDiscountAmount());
@@ -174,12 +139,7 @@ public class MainService {
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {
-                        System.out.println("=== 휴대폰 판매 중지 ===");
-                        System.out.print("판매 중지할 휴대폰 이름 : ");
-                        String name = scanner.nextLine();
-
-                        PhoneDto phoneDto = phoneService.getPhoneByName(conn, name);
-
+                        PhoneDto phoneDto = phoneService.getPhoneByName(conn, phoneProcess.inputPhoneNameForDelete());
                         if (phoneDto == null) {
                             System.out.println("해당 기기가 존재하지 않습니다.");
                             continue;
