@@ -15,14 +15,16 @@ public class MainService {
     private final PhoneService phoneService;
 
     private final PhoneProcess phoneProcess;
+    private final MemberProcess memberProcess;
 
     private final Scanner scanner = new Scanner(System.in);
 
-    public MainService(OrderService orderService, MemberService memberService, PhoneService phoneService, PhoneProcess phoneProcess) {
+    public MainService(OrderService orderService, MemberService memberService, PhoneService phoneService, PhoneProcess phoneProcess, MemberProcess memberProcess) {
         this.orderService = orderService;
         this.memberService = memberService;
         this.phoneService = phoneService;
         this.phoneProcess = phoneProcess;
+        this.memberProcess = memberProcess;
     }
 
     public void run() {
@@ -40,6 +42,42 @@ public class MainService {
             if (order.equals("phone")) {
                 phoneExecute();
             }
+
+            if (order.equals("order")) {
+                orderExecute();
+            }
+        }
+    }
+
+    public void orderExecute() {
+        while (true) {
+            System.out.print("order > ");
+            String order = scanner.nextLine();
+
+            if (order.equals("exit"))
+                break;
+
+            if (order.equals("show")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
+                    AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
+                    boolean flag = memberService.existsMemberByEmailAndPassword(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
+
+                    if (flag) {
+                        MemberDto member = memberService.getMember(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
+                        List<OrderListDto> orders = orderService.getOrdersByMemberId(conn, member.getMemberId());
+
+                        System.out.println("=== 주문 목록 ===");
+
+                        for (OrderListDto orderListDto : orders) {
+                            System.out.println(orderListDto);
+                            System.out.println("----------------------------");
+                        }
+                    }
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -53,7 +91,7 @@ public class MainService {
                     break;
 
                 if (order.equals("create")) {
-                    AuthenticationDto authenticationDto = phoneProcess.inputEmailAndPassword();
+                    AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {
@@ -82,7 +120,7 @@ public class MainService {
                 }
 
                 if (order.equals("updateStock")) {
-                    AuthenticationDto authenticationDto = phoneProcess.inputEmailAndPassword();
+                    AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {
@@ -101,7 +139,7 @@ public class MainService {
                 }
 
                 if (order.equals("order")) {
-                    AuthenticationDto authenticationDto = phoneProcess.inputEmailAndPassword();
+                    AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPassword(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {

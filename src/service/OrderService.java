@@ -1,10 +1,12 @@
 package service;
 
 import dto.OrderCreateDto;
+import dto.OrderListDto;
 import entity.Orders;
 import repository.OrderRepository;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class OrderService {
 
@@ -22,5 +24,9 @@ public class OrderService {
                 orderCreateDto.getOrderDiscountAmount());
 
         orderRepository.save(conn, order);
+    }
+
+    public List<OrderListDto> getOrdersByMemberId(Connection conn, Long memberId) {
+        return orderRepository.findOrdersByMemberId(conn, memberId);
     }
 }

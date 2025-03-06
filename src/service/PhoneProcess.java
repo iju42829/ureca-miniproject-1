@@ -11,17 +11,6 @@ public class PhoneProcess {
 
     public PhoneProcess() {}
 
-    public AuthenticationDto inputEmailAndPassword() {
-        System.out.println("휴대폰 등록전 권한을 체크합니다.");
-        System.out.print("email : ");
-        String email = scanner.nextLine();
-
-        System.out.print("password : ");
-        String password = scanner.nextLine();
-
-        return new AuthenticationDto(email, password);
-    }
-
     public PhoneCreateDto inputPhoneDetails() {
         System.out.println("휴대폰을 등록합니다.");
         System.out.print("name : ");

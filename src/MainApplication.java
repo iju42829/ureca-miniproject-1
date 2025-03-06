@@ -15,9 +15,10 @@ public class MainApplication {
         PhoneService phoneService = new PhoneService(phoneRepository);
         OrderService orderService = new OrderService(orderRepository);
         PhoneProcess phoneProcess = new PhoneProcess();
+        MemberProcess memberProcess = new MemberProcess();
 
         // main
-        MainService mainService = new MainService(orderService, memberService, phoneService, phoneProcess);
+        MainService mainService = new MainService(orderService, memberService, phoneService, phoneProcess, memberProcess);
 
         mainService.run();
     }
