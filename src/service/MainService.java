@@ -15,14 +15,16 @@ public class MainService {
     private final PhoneService phoneService;
     private final PhoneProcess phoneProcess;
     private final MemberProcess memberProcess;
+    private final OrderProcess orderProcess;
     private final Scanner scanner = new Scanner(System.in);
 
-    public MainService(OrderService orderService, MemberService memberService, PhoneService phoneService, PhoneProcess phoneProcess, MemberProcess memberProcess) {
+    public MainService(OrderService orderService, MemberService memberService, PhoneService phoneService, PhoneProcess phoneProcess, MemberProcess memberProcess, OrderProcess orderProcess) {
         this.orderService = orderService;
         this.memberService = memberService;
         this.phoneService = phoneService;
         this.phoneProcess = phoneProcess;
         this.memberProcess = memberProcess;
+        this.orderProcess = orderProcess;
     }
 
     public void run() {
@@ -57,19 +59,15 @@ public class MainService {
                     if (flag) {
                         MemberDto member = memberService.getMember(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
                         List<OrderListDto> orders = orderService.getOrdersByMemberId(conn, member.getMemberId());
-
-                        System.out.println("=== 주문 목록 ===");
-
-                        for (OrderListDto orderListDto : orders) {
-                            System.out.println(orderListDto);
-                            System.out.println("----------------------------");
-                        }
+                        orderProcess.printOrderList(orders);
                     }
 
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
+            else
+                orderProcess.printOrderHelp();
         }
     }
 
