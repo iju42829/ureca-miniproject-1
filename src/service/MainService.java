@@ -66,21 +66,20 @@ public class MainService {
                     e.printStackTrace();
                 }
             }
-            else
-                orderProcess.printOrderHelp();
+            if (order.equals("help")) orderProcess.printOrderHelp();
         }
     }
 
     public void phoneExecute() {
-        try (Connection conn = DBConnectionUtil.getConnection()) {
-            while (true) {
-                System.out.print("phone > ");
-                String order = scanner.nextLine();
+        while (true) {
+            System.out.print("phone > ");
+            String order = scanner.nextLine();
 
-                if (order.equals("exit"))
-                    break;
+            if (order.equals("exit"))
+                break;
 
-                if (order.equals("create")) {
+            if (order.equals("create")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
@@ -90,14 +89,20 @@ public class MainService {
                         System.out.println("=== 휴대폰 등록에 성공했습니다. ===");
                     } else
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-                if (order.equals("show")) {
+            }
+            if (order.equals("show")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     List<PhoneListDTO> phones = phoneService.getAllPhones(conn);
                     phoneProcess.printPhoneList(phones);
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-                if (order.equals("updateStock")) {
+            }
+            if (order.equals("updateStock")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
@@ -106,9 +111,12 @@ public class MainService {
                         phoneService.editStock(conn, phoneProcess.inputPhoneName(), phoneProcess.inputStock());
                     } else
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-                if (order.equals("order")) {
+            }
+            if (order.equals("order")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPassword(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
@@ -130,9 +138,12 @@ public class MainService {
                             orderService.createOrder(conn, orderCreateDto);
                         }
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-                if (order.equals("delete")) {
+            }
+            if (order.equals("delete")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
                     boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
@@ -147,42 +158,42 @@ public class MainService {
                     } else {
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
                     }
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-                else
-                    phoneProcess.printPhoneHelp();
             }
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            if (order.equals("help")) phoneProcess.printPhoneHelp();
         }
     }
 
     public void memberExecute() {
-        try (Connection conn = DBConnectionUtil.getConnection()) {
-            while (true) {
-                System.out.print("member > ");
-                String order = scanner.nextLine();
+        while (true) {
+            System.out.print("member > ");
+            String order = scanner.nextLine();
 
-                if (order.equals("exit"))
-                    break;
+            if (order.equals("exit"))
+                break;
 
-                if (order.equals("create")) {
+            if (order.equals("create")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     MemberCreateDto memberCreateDto = memberProcess.inputMemberDetails();
                     memberService.createMember(conn, memberCreateDto);
                     System.out.println("=== 회원가입에 성공했습니다. ===");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
+            }
 
-                if (order.equals("changePassword")) {
+            if (order.equals("changePassword")) {
+                try (Connection conn = DBConnectionUtil.getConnection()) {
                     System.out.println("비밀번호 변경을 진행합니다.");
                     memberService.changeMemberPassword(conn, memberProcess.inputEmail(), memberProcess.inputCurrentPassword(), memberProcess.inputNewPassword());
                     System.out.println("=== 비밀번호 변경에 성공했습니다. ===");
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
-
-                else
-                    memberProcess.printMemberHelp();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            if (order.equals("help")) memberProcess.printMemberHelp();
         }
     }
 }
