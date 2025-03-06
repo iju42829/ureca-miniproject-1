@@ -27,6 +27,15 @@ public class MainService {
         this.orderProcess = orderProcess;
     }
 
+    private void printMainHelp() {
+        System.out.println("=== 메인 메뉴 도움말 ===");
+        System.out.println("member  : 회원 관련 기능 이동");
+        System.out.println("phone   : 휴대폰 관련 기능 이동");
+        System.out.println("order   : 주문 관련 기능 이동");
+        System.out.println("help    : 명령어 목록 출력");
+        System.out.println("exit    : 프로그램 종료");
+    }
+
     public void run() {
         while(true) {
             System.out.print("main > ");
@@ -40,6 +49,8 @@ public class MainService {
                 phoneExecute();
             if (order.equals("order"))
                 orderExecute();
+            if (order.equals("help"))
+                printMainHelp();
         }
     }
 
