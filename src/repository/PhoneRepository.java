@@ -39,21 +39,20 @@ public class PhoneRepository {
         String selectSQL = "select * from phone where is_deleted = false";
 
         try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
-            ResultSet rs = pstmt.executeQuery();
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Phone phone = new Phone();
 
-            while (rs.next()) {
-                Phone phone = new Phone();
+                    phone.setPhoneId(rs.getLong("phone_id"));
+                    phone.setName(rs.getString("name"));
+                    phone.setBrand(rs.getString("brand"));
+                    phone.setRegularPrice(rs.getInt("regular_price"));
+                    phone.setDiscountAmount(rs.getInt("discount_amount"));
+                    phone.setStock(rs.getInt("stock"));
 
-                phone.setPhoneId(rs.getLong("phone_id"));
-                phone.setName(rs.getString("name"));
-                phone.setBrand(rs.getString("brand"));
-                phone.setRegularPrice(rs.getInt("regular_price"));
-                phone.setDiscountAmount(rs.getInt("discount_amount"));
-                phone.setStock(rs.getInt("stock"));
-
-                phones.add(phone);
+                    phones.add(phone);
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -78,20 +77,19 @@ public class PhoneRepository {
 
         try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
             pstmt.setString(1, name);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                return new Phone(
-                        rs.getLong("phone_id"),
-                        rs.getString("name"),
-                        rs.getString("brand"),
-                        rs.getInt("regular_price"),
-                        rs.getInt("discount_amount"),
-                        rs.getInt("stock"),
-                        rs.getBoolean("is_deleted")
-                );
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Phone(
+                            rs.getLong("phone_id"),
+                            rs.getString("name"),
+                            rs.getString("brand"),
+                            rs.getInt("regular_price"),
+                            rs.getInt("discount_amount"),
+                            rs.getInt("stock"),
+                            rs.getBoolean("is_deleted")
+                    );
+                }
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
