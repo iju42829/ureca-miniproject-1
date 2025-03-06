@@ -1,12 +1,14 @@
 package service;
 
 import dto.PhoneCreateDto;
+import dto.PhoneDto;
 import dto.PhoneListDTO;
 import entity.Phone;
 import repository.PhoneRepository;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public class PhoneService {
 
@@ -38,6 +40,18 @@ public class PhoneService {
                 .toList();
     }
 
+    public PhoneDto getPhoneByName(Connection conn, String name) {
+        return Optional.ofNullable(phoneRepository.findByName(conn, name))
+                .map(phone -> new PhoneDto(
+                        phone.getPhoneId(),
+                        phone.getName(),
+                        phone.getBrand(),
+                        phone.getRegularPrice(),
+                        phone.getDiscountAmount(),
+                        phone.getStock()))
+                .orElse(null);
+    }
+
     public void editStock(Connection conn, String name, int newStock) {
         Phone phone = phoneRepository.findByName(conn, name);
 
@@ -46,6 +60,6 @@ public class PhoneService {
             return;
         }
 
-        phoneRepository.updateStock(conn, phone.getPhoneId(), newStock);
+        phoneRepository.updateStock(conn, phone.getPhoneId(), phone.getStock() + newStock);
     }
 }

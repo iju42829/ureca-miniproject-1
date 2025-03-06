@@ -1,23 +1,23 @@
 import repository.MemberRepository;
+import repository.OrderRepository;
 import repository.PhoneRepository;
-import service.MainService;
-import service.MemberService;
-import service.PhoneProcess;
-import service.PhoneService;
+import service.*;
 
 public class MainApplication {
     public static void main(String[] args) {
         // repository
         MemberRepository memberRepository = new MemberRepository();
         PhoneRepository phoneRepository = new PhoneRepository();
+        OrderRepository orderRepository = new OrderRepository();
 
         // service
         MemberService memberService = new MemberService(memberRepository);
         PhoneService phoneService = new PhoneService(phoneRepository);
+        OrderService orderService = new OrderService(orderRepository);
         PhoneProcess phoneProcess = new PhoneProcess();
 
         // main
-        MainService mainService = new MainService(memberService, phoneService, phoneProcess);
+        MainService mainService = new MainService(orderService, memberService, phoneService, phoneProcess);
 
         mainService.run();
     }

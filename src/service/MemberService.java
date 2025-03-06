@@ -1,6 +1,7 @@
 package service;
 
 import dto.MemberCreateDto;
+import dto.MemberDto;
 import entity.Member;
 import repository.MemberRepository;
 
@@ -23,6 +24,17 @@ public class MemberService {
         memberRepository.save(conn, member);
     }
 
+    public MemberDto getMember(Connection conn, String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(conn, email, password);
+
+        return new MemberDto(member.getMemberId(),
+                member.getName(),
+                member.getEmail(),
+                member.getPassword(),
+                member.getRole(),
+                member.getCreatedAt());
+    }
+
     public boolean existsMemberByEmailAndPasswordAndRole(Connection conn, String email, String password) {
         Member member = memberRepository.findByEmailAndPassword(conn, email, password);
 
@@ -30,6 +42,12 @@ public class MemberService {
             return false;
 
         return member.getRole().equals("admin");
+    }
+
+    public boolean existsMemberByEmailAndPassword(Connection conn, String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(conn, email, password);
+
+        return member != null;
     }
 
     public void changeMemberPassword(Connection conn, String email, String password, String newPassword) {
