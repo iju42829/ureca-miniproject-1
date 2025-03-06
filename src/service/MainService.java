@@ -148,6 +148,8 @@ public class MainService {
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
                     }
                 }
+                else
+                    phoneProcess.printPhoneHelp();
             }
 
         } catch (SQLException e) {

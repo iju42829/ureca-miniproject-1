@@ -65,4 +65,15 @@ public class PhoneProcess {
             System.out.println("----------------------------");
         }
     }
+
+    public void printPhoneHelp() {
+        System.out.println("=== 휴대폰 메뉴 도움말 ===");
+        System.out.println("create      : 휴대폰 등록 (관리자만)");
+        System.out.println("show        : 휴대폰 목록 조회");
+        System.out.println("updateStock : 휴대폰 재고 변경 (관리자만)");
+        System.out.println("order       : 휴대폰 주문");
+        System.out.println("delete      : 휴대폰 판매 중지 (관리자만)");
+        System.out.println("exit        : 휴대폰 메뉴에서 빠져나가기");
+        System.out.println("-----------------------------");
+    }
 }
