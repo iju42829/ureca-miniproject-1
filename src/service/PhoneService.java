@@ -62,4 +62,8 @@ public class PhoneService {
 
         phoneRepository.updateStock(conn, phone.getPhoneId(), phone.getStock() + newStock);
     }
+
+    public void removePhone(Connection conn, Long phoneId) {
+        phoneRepository.deleteById(conn, phoneId);
+    }
 }

@@ -168,6 +168,28 @@ public class MainService {
                         }
                     }
                 }
+
+                if (order.equals("delete")) {
+                    AuthenticationDto authenticationDto = memberProcess.inputEmailAndPassword();
+                    boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
+
+                    if (flag) {
+                        System.out.println("=== 휴대폰 판매 중지 ===");
+                        System.out.print("판매 중지할 휴대폰 이름 : ");
+                        String name = scanner.nextLine();
+
+                        PhoneDto phoneDto = phoneService.getPhoneByName(conn, name);
+
+                        if (phoneDto == null) {
+                            System.out.println("해당 기기가 존재하지 않습니다.");
+                            continue;
+                        }
+                        phoneService.removePhone(conn, phoneDto.getPhoneId());
+
+                    } else {
+                        System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
+                    }
+                }
             }
 
         } catch (SQLException e) {

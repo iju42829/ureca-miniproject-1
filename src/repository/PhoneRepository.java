@@ -36,7 +36,7 @@ public class PhoneRepository {
 
     public List<Phone> findAll(Connection conn) {
         List<Phone> phones = new ArrayList();
-        String selectSQL = "select * from phone";
+        String selectSQL = "select * from phone where is_deleted = false";
 
         try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
             ResultSet rs = pstmt.executeQuery();
@@ -96,5 +96,17 @@ public class PhoneRepository {
         }
 
         return null;
+    }
+
+    public void deleteById(Connection conn, Long phoneId) {
+        String deleteSQL = "update phone set is_deleted = true where phone_id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(deleteSQL)) {
+            pstmt.setLong(1, phoneId);
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
