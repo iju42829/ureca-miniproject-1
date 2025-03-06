@@ -1,10 +1,12 @@
 package service;
 
 import dto.PhoneCreateDto;
+import dto.PhoneListDTO;
 import entity.Phone;
 import repository.PhoneRepository;
 
 import java.sql.Connection;
+import java.util.List;
 
 public class PhoneService {
 
@@ -22,5 +24,17 @@ public class PhoneService {
                 phoneCreateDto.getStock());
 
         phoneRepository.save(conn, phone);
+    }
+
+    public List<PhoneListDTO> getAllPhones(Connection conn) {
+        return phoneRepository.findAll(conn)
+                .stream()
+                .map(phone -> new PhoneListDTO(
+                        phone.getName(),
+                        phone.getBrand(),
+                        phone.getRegularPrice(),
+                        phone.getDiscountAmount(),
+                        phone.getStock()))
+                .toList();
     }
 }

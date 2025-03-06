@@ -3,10 +3,12 @@ package service;
 import dto.AuthenticationDto;
 import dto.MemberCreateDto;
 import dto.PhoneCreateDto;
+import dto.PhoneListDTO;
 import util.DBConnectionUtil;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainService {
@@ -61,6 +63,22 @@ public class MainService {
                         System.out.println("=== 휴대폰 등록에 성공했습니다. ===");
                     } else {
                         System.out.println("권한이 부족하거나 아이디 또는 비밀번호가 일치하지 않습니다. \n 다시 진행해 주세요.");
+                    }
+                }
+
+                if (order.equals("show")) {
+                    List<PhoneListDTO> phones = phoneService.getAllPhones(conn);
+
+                    System.out.println("=== 휴대폰 목록 ===");
+                    for (PhoneListDTO phone : phones) {
+                        System.out.println(
+                                "이름: " + phone.getName() +
+                                        ",\n브랜드: " + phone.getBrand() +
+                                        ",\n가격: " + phone.getRegularPrice() +
+                                        ",\n할인액: " + phone.getDiscountAmount() +
+                                        ",\n재고: " + phone.getStock()
+                        );
+                        System.out.println("----------------------------");
                     }
                 }
             }
