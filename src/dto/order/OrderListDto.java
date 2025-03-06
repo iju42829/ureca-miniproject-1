@@ -1,4 +1,4 @@
-package dto;
+package dto.order;
 
 import java.time.LocalDateTime;
 

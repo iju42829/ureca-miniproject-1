@@ -1,14 +1,13 @@
-package dto;
+package dto.phone;
 
-public class PhoneListDTO {
-
+public class PhoneCreateDto {
     private String name;
     private String brand;
     private int regularPrice;
     private int discountAmount;
     private int stock;
 
-    public PhoneListDTO(String name, String brand, int regularPrice, int discountAmount, int stock) {
+    public PhoneCreateDto(String name, String brand, int regularPrice, int discountAmount, int stock) {
         this.name = name;
         this.brand = brand;
         this.regularPrice = regularPrice;
@@ -32,20 +31,20 @@ public class PhoneListDTO {
         this.brand = brand;
     }
 
-    public int getRegularPrice() {
-        return regularPrice;
-    }
-
-    public void setRegularPrice(int regularPrice) {
-        this.regularPrice = regularPrice;
-    }
-
     public int getDiscountAmount() {
         return discountAmount;
     }
 
     public void setDiscountAmount(int discountAmount) {
         this.discountAmount = discountAmount;
+    }
+
+    public int getRegularPrice() {
+        return regularPrice;
+    }
+
+    public void setRegularPrice(int regularPrice) {
+        this.regularPrice = regularPrice;
     }
 
     public int getStock() {

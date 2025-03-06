@@ -1,6 +1,6 @@
 package repository;
 
-import dto.OrderListDto;
+import dto.order.OrderListDto;
 import entity.Orders;
 
 import java.sql.Connection;

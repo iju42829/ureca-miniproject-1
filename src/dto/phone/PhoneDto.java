@@ -1,4 +1,4 @@
-package dto;
+package dto.phone;
 
 public class PhoneDto {
     private Long phoneId;

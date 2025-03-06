@@ -1,4 +1,4 @@
-package dto;
+package dto.member;
 
 import java.time.LocalDateTime;
 

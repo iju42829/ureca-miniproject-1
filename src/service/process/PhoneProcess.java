@@ -1,7 +1,7 @@
-package service;
+package service.process;
 
-import dto.PhoneCreateDto;
-import dto.PhoneListDTO;
+import dto.phone.PhoneCreateDto;
+import dto.phone.PhoneListDTO;
 
 import java.util.List;
 import java.util.Scanner;

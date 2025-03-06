@@ -1,6 +1,6 @@
-package service;
+package service.process;
 
-import dto.OrderListDto;
+import dto.order.OrderListDto;
 
 import java.util.List;
 

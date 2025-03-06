@@ -1,7 +1,7 @@
 package service;
 
-import dto.MemberCreateDto;
-import dto.MemberDto;
+import dto.member.MemberCreateDto;
+import dto.member.MemberDto;
 import entity.Member;
 import repository.MemberRepository;
 

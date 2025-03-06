@@ -1,8 +1,8 @@
 package service;
 
-import dto.PhoneCreateDto;
-import dto.PhoneDto;
-import dto.PhoneListDTO;
+import dto.phone.PhoneCreateDto;
+import dto.phone.PhoneDto;
+import dto.phone.PhoneListDTO;
 import entity.Phone;
 import repository.PhoneRepository;
 

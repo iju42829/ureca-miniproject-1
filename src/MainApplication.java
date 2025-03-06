@@ -2,6 +2,9 @@ import repository.MemberRepository;
 import repository.OrderRepository;
 import repository.PhoneRepository;
 import service.*;
+import service.process.MemberProcess;
+import service.process.OrderProcess;
+import service.process.PhoneProcess;
 
 public class MainApplication {
     public static void main(String[] args) {

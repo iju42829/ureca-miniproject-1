@@ -1,7 +1,7 @@
-package service;
+package service.process;
 
-import dto.AuthenticationDto;
-import dto.MemberCreateDto;
+import dto.member.AuthenticationDto;
+import dto.member.MemberCreateDto;
 
 import java.util.Scanner;
 
