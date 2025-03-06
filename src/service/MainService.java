@@ -167,38 +167,15 @@ public class MainService {
                     break;
 
                 if (order.equals("create")) {
-                    System.out.println("회원가입을 진행합니다.");
-                    System.out.print("email : ");
-                    String email = scanner.nextLine();
-
-                    System.out.print("password : ");
-                    String password = scanner.nextLine();
-
-                    System.out.print("name : ");
-                    String name = scanner.nextLine();
-
-                    MemberCreateDto memberCreateDto = new MemberCreateDto(name, password, email);
-
+                    MemberCreateDto memberCreateDto = memberProcess.inputMemberDetails();
                     memberService.createMember(conn, memberCreateDto);
-
                     System.out.println("=== 회원가입에 성공했습니다. ===");
                 }
 
                 if (order.equals("changePassword")) {
                     System.out.println("비밀번호 변경을 진행합니다.");
-                    System.out.print("email : ");
-                    String email = scanner.nextLine();
-
-                    System.out.print("currentPassword : ");
-                    String currentPassword = scanner.nextLine();
-
-                    System.out.print("newPassword : ");
-                    String newPassword = scanner.nextLine();
-
-                    memberService.changeMemberPassword(conn, email, currentPassword, newPassword);
-
+                    memberService.changeMemberPassword(conn, memberProcess.inputEmail(), memberProcess.inputCurrentPassword(), memberProcess.inputNewPassword());
                     System.out.println("=== 비밀번호 변경에 성공했습니다. ===");
-
                 }
             }
         } catch (SQLException e) {
