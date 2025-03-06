@@ -37,4 +37,15 @@ public class PhoneService {
                         phone.getStock()))
                 .toList();
     }
+
+    public void editStock(Connection conn, String name, int newStock) {
+        Phone phone = phoneRepository.findByName(conn, name);
+
+        if (phone == null) {
+            System.out.println("해당 이름의 기종이 존재하지 않습니다.");
+            return;
+        }
+
+        phoneRepository.updateStock(conn, phone.getPhoneId(), newStock);
+    }
 }

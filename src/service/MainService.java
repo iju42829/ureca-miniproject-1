@@ -55,7 +55,7 @@ public class MainService {
 
                 if (order.equals("create")) {
                     AuthenticationDto authenticationDto = phoneProcess.inputEmailAndPassword();
-                    boolean flag = memberService.existsMemberByEmailAndPassword(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
+                    boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
 
                     if (flag) {
                         PhoneCreateDto phoneCreateDto = phoneProcess.inputPhoneDetails();
@@ -79,6 +79,22 @@ public class MainService {
                                         ",\n재고: " + phone.getStock()
                         );
                         System.out.println("----------------------------");
+                    }
+                }
+
+                if (order.equals("updateStock")) {
+                    AuthenticationDto authenticationDto = phoneProcess.inputEmailAndPassword();
+                    boolean flag = memberService.existsMemberByEmailAndPasswordAndRole(conn, authenticationDto.getEmail(), authenticationDto.getPassword());
+
+                    if (flag) {
+                        System.out.println("=== 수량 업데이트 ===");
+                        System.out.print("기기 이름 입력: ");
+                        String name = scanner.nextLine();
+
+                        System.out.print("수량 입력 : ");
+                        int stock = Integer.parseInt(scanner.nextLine());
+
+                        phoneService.editStock(conn, name, stock);
                     }
                 }
             }

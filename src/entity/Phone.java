@@ -19,6 +19,15 @@ public class Phone {
         this.stock = stock;
     }
 
+    public Phone(Long phoneId, String name, String brand, int regularPrice, int discountAmount, int stock) {
+        this.phoneId = phoneId;
+        this.name = name;
+        this.brand = brand;
+        this.regularPrice = regularPrice;
+        this.discountAmount = discountAmount;
+        this.stock = stock;
+    }
+
     public Long getPhoneId() {
         return phoneId;
     }

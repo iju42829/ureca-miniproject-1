@@ -23,7 +23,7 @@ public class MemberService {
         memberRepository.save(conn, member);
     }
 
-    public boolean existsMemberByEmailAndPassword(Connection conn, String email, String password) {
+    public boolean existsMemberByEmailAndPasswordAndRole(Connection conn, String email, String password) {
         Member member = memberRepository.findByEmailAndPassword(conn, email, password);
 
         if (member == null)

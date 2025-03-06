@@ -60,4 +60,41 @@ public class PhoneRepository {
 
         return phones;
     }
+
+    public void updateStock(Connection conn, Long phoneId, int newStock) {
+        String sql = "update phone set stock = ? where phone_id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, newStock);
+            pstmt.setLong(2, phoneId);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Phone findByName(Connection conn, String name) {
+        String selectSQL = "select * from phone where name = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(selectSQL)) {
+            pstmt.setString(1, name);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return new Phone(
+                        rs.getLong("phone_id"),
+                        rs.getString("name"),
+                        rs.getString("brand"),
+                        rs.getInt("regular_price"),
+                        rs.getInt("discount_amount"),
+                        rs.getInt("stock")
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
