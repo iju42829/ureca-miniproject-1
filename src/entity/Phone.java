@@ -8,6 +8,7 @@ public class Phone {
     private int regularPrice;
     private int discountAmount;
     private int stock;
+    private boolean isDeleted;
 
     public Phone() {}
 
@@ -19,13 +20,14 @@ public class Phone {
         this.stock = stock;
     }
 
-    public Phone(Long phoneId, String name, String brand, int regularPrice, int discountAmount, int stock) {
+    public Phone(Long phoneId, String name, String brand, int regularPrice, int discountAmount, int stock, boolean isDeleted) {
         this.phoneId = phoneId;
         this.name = name;
         this.brand = brand;
         this.regularPrice = regularPrice;
         this.discountAmount = discountAmount;
         this.stock = stock;
+        this.isDeleted = isDeleted;
     }
 
     public Long getPhoneId() {
@@ -74,5 +76,13 @@ public class Phone {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

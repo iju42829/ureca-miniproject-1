@@ -87,7 +87,8 @@ public class PhoneRepository {
                         rs.getString("brand"),
                         rs.getInt("regular_price"),
                         rs.getInt("discount_amount"),
-                        rs.getInt("stock")
+                        rs.getInt("stock"),
+                        rs.getBoolean("is_deleted")
                 );
             }
 

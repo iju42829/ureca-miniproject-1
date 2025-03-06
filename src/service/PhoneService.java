@@ -42,6 +42,7 @@ public class PhoneService {
 
     public PhoneDto getPhoneByName(Connection conn, String name) {
         return Optional.ofNullable(phoneRepository.findByName(conn, name))
+                .filter(phone -> !phone.isDeleted())
                 .map(phone -> new PhoneDto(
                         phone.getPhoneId(),
                         phone.getName(),
