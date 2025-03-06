@@ -177,6 +177,9 @@ public class MainService {
                     memberService.changeMemberPassword(conn, memberProcess.inputEmail(), memberProcess.inputCurrentPassword(), memberProcess.inputNewPassword());
                     System.out.println("=== 비밀번호 변경에 성공했습니다. ===");
                 }
+
+                else
+                    memberProcess.printMemberHelp();
             }
         } catch (SQLException e) {
             e.printStackTrace();

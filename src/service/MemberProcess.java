@@ -50,4 +50,11 @@ public class MemberProcess {
         System.out.print("newPassword : ");
         return scanner.nextLine();
     }
+
+    public void printMemberHelp() {
+        System.out.println("=== 회원 메뉴 도움말 ===");
+        System.out.println("create           : 회원가입");
+        System.out.println("changePassword   : 비밀번호 변경");
+        System.out.println("exit             : 회원 메뉴에서 빠져나가기");
+    }
 }
